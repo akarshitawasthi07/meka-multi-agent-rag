@@ -16,6 +16,11 @@ chroma_db/
 *.sqlite3
 *.bin
 
+# Local History & Data
+query_history.json
+data/*.csv
+data/*.json
+
 # Node / React
 node_modules/
 frontend/node_modules/
