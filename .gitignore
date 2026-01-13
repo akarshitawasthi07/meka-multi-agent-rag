@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# Vector DB
+chroma_db/
+*.sqlite3
+*.bin
+
+# Node / React
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+frontend/dist-ssr/
+
+# OS / Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Test
+.pytest_cache/
+tests/test_end_to_end.py
+
+# Build
+build/
