@@ -31,7 +31,11 @@ REASON: short reason
         if line.startswith("REASON"):
             reason = line.split(":")[1].strip()
 
+    trace = state.get("reasoning_trace", [])
+    trace.append(f"Validator: Answer is {status} - {reason}")
+
     return {
         "validation": status,
-        "reason": reason
+        "reason": reason,
+        "reasoning_trace": trace
     }

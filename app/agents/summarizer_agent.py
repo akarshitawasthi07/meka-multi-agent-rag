@@ -19,4 +19,12 @@ Answer:
 """
 
     response = llm.invoke(prompt)
-    return {"final_answer": response.content}
+    answer = response.content
+    
+    trace = state.get("reasoning_trace", [])
+    trace.append(f"Summarizer: Synthesized final answer from reranked context")
+    
+    return {
+        "final_answer": answer,
+        "reasoning_trace": trace
+    }

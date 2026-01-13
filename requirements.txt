@@ -17,3 +17,7 @@ python-dotenv
 
 httpx
 rank_bm25
+pypdf
+python-docx
+pandas
+openpyxl

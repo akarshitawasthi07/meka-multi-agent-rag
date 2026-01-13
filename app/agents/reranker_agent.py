@@ -5,22 +5,24 @@ def reranker_agent(state: dict):
     retrieved_docs = state["retrieved_docs"]
     
     if not retrieved_docs:
-        return {"reranked_docs": []}
+        return {"reranked_docs": [], "reasoning_trace": state.get("reasoning_trace", []) + ["Reranker: No docs to rerank"]}
 
-    # Load CrossEncoder model (this will download if not present)
+    # Load CrossEncoder model
     model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
     
-    # Prepare pairs for reranking
     pairs = [[query, doc.page_content] for doc in retrieved_docs]
-    
-    # Compute scores
     scores = model.predict(pairs)
     
-    # Attach scores and sort
     for i, doc in enumerate(retrieved_docs):
         doc.metadata["rerank_score"] = float(scores[i])
     
     reranked = sorted(retrieved_docs, key=lambda x: x.metadata["rerank_score"], reverse=True)
+    top_docs = reranked[:5]
     
-    # Keep top 5
-    return {"reranked_docs": reranked[:5]}
+    trace = state.get("reasoning_trace", [])
+    trace.append(f"Reranker: Re-scored {len(retrieved_docs)} segments, optimized to top {len(top_docs)}")
+    
+    return {
+        "reranked_docs": top_docs,
+        "reasoning_trace": trace
+    }
