@@ -18,8 +18,10 @@ chroma_db/
 
 # Local History & Data
 query_history.json
-data/*.csv
-data/*.json
+# Keep sample datasets but ignore other transient data
+!data/policies.csv
+!data/policies.json
+!data/ai.txt
 
 # Node / React
 node_modules/
