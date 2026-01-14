@@ -8,15 +8,23 @@ from langchain_community.document_loaders import (
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-def load_documents(data_path="data"):
+# Simple cache to avoid reloading from disk on every query
+_cached_docs = None
+
+def load_documents(data_path="data", force_reload=False):
     """
     Loads documents from the data directory supporting multiple formats.
     """
+    global _cached_docs
+    if _cached_docs is not None and not force_reload:
+        return _cached_docs
+
     docs = []
     if not os.path.exists(data_path):
         os.makedirs(data_path)
         return docs
 
+    print(f"Loading documents from {data_path}...")
     for file in os.listdir(data_path):
         file_path = os.path.join(data_path, file)
         try:
@@ -33,12 +41,12 @@ def load_documents(data_path="data"):
                 loader = CSVLoader(file_path)
                 docs.extend(loader.load())
             elif file.endswith(".json"):
-                # For JSON, we use a simple schema. If more complex, jq_schema may be needed.
                 loader = JSONLoader(file_path, jq_schema='.[]', text_content=False)
                 docs.extend(loader.load())
         except Exception as e:
             print(f"Error loading {file}: {e}")
 
+    _cached_docs = docs
     return docs
 
 def get_chunks(documents):

@@ -1,15 +1,18 @@
 from sentence_transformers import CrossEncoder
 
+# Load model once at module level
+print("Loading CrossEncoder model...")
+model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+
 def reranker_agent(state: dict):
     query = state["query"]
     retrieved_docs = state["retrieved_docs"]
     
     if not retrieved_docs:
-        return {"reranked_docs": [], "reasoning_trace": state.get("reasoning_trace", []) + ["Reranker: No docs to rerank"]}
+        trace = state.get("reasoning_trace", [])
+        trace.append("Reranker: No docs to rerank")
+        return {"reranked_docs": [], "reasoning_trace": trace}
 
-    # Load CrossEncoder model
-    model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
-    
     pairs = [[query, doc.page_content] for doc in retrieved_docs]
     scores = model.predict(pairs)
     

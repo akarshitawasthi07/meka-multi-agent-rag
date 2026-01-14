@@ -1,5 +1,6 @@
 fastapi
 uvicorn
+sse-starlette
 pydantic
 
 langchain
@@ -13,6 +14,7 @@ chromadb
 sentence-transformers
 
 tavily-python
+langchain-tavily
 python-dotenv
 
 httpx
