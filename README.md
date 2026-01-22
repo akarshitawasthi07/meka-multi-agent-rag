@@ -2,7 +2,7 @@
 
 MEKA is an industry-grade Multi-Agent Retrieval-Augmented Generation (RAG) system designed to extract, reason over, and validate information from heterogeneous knowledge sources such as PDFs, DOCX, CSV, JSON, and real-time web data.
 
----
+
 
 ## 1. System Architecture Diagram
 
@@ -31,7 +31,7 @@ graph TD
     API --> User
 ```
 
----
+
 
 ## 2. Agent Workflow Logic (Sequence & Delegation)
 
@@ -41,7 +41,7 @@ graph TD
 4.  **Summarizer Agent**: Synthesizes the final structured answer strictly from the reranked evidence chains.
 5.  **Validator Agent**: Performs a final groundedness verification to detect and flag potential hallucinations before delivery.
 
----
+
 
 ## 3. Tool Choices and Rationale
 
@@ -49,7 +49,7 @@ graph TD
 *   **Cross-Encoder Reranking**: I integrated `SentenceTransformers` for reranking because standard vector similarity can be "noisy." A cross-encoder performs a much deeper semantic evaluation, significantly increasing the precision of the context provided to the LLM.
 *   **LangGraph Orchestration**: I chose LangGraph because it allows for stateful, cyclical multi-agent workflows with explicit control over delegation and memory, which is critical for complex reasoning tasks.
 
----
+
 
 ## 4. AI Tools Used
 
@@ -60,14 +60,14 @@ graph TD
 | **Tavily API** | Web Search | Optimized specifically for LLM/RAG pipelines with clean content. |
 | **ChromaDB** | Vector Store | Selected for its simplicity, persistence, and local-first performance. |
 
----
+
 
 ## 5. Development Environment / IDE Used
 
 *   **IDE**: VS Code + Antigravity (Agentic AI Assistant)
 *   **Justification**: VS Code was used as the primary editor, while Antigravity (Agentic AI Assistant) was leveraged for rapid prototyping, architectural reasoning, and iterative refinement of multi-agent orchestration logic. This combination improved development velocity while maintaining control over design decisions and implementation quality.
 
----
+
 
 ## 6. Trade-offs and Limitations
 
@@ -75,7 +75,7 @@ graph TD
 *   **Hardware Dependencies**: The Reranker inference is currently CPU-bound. In a high-traffic production environment, GPU acceleration would be necessary to maintain throughput.
 *   **Storage Scale**: I am using file-based persistence for query history. For massive multi-user scaling, this would be migrated to a production SQL database like PostgreSQL.
 
----
+
 
 ## 7. Testing Approach
 
@@ -83,7 +83,7 @@ graph TD
 *   **Manual Stress Testing**: I verified performance with complex, multi-turn queries (e.g., following pronouns across turns) and queries with no relevant internal documentation to test web fallback.
 *   **Tracing**: Used the WebSocket-based reasoning trace to audit the accuracy of each agent's sub-task execution and delegation logic.
 
----
+
 
 ## 8. API Documentation + Examples
 
@@ -107,19 +107,8 @@ Yields real-time events: `trace` (agent status), `answer` (streaming result), an
 4. Summarizer generates a 100% grounded answer.
 5. Validator confirms: ✅ Answer is grounded.
 
-## 🤖 AI Assistance Disclosure
 
-This project was developed with assistance from AI tools (**Gemini, ChatGPT, and Antigravity**).
 
-**AI tools were used for:**
-*   **Rapid prototyping** of the multi-agent architecture (LangGraph scaffolding).
-*   **Iterating** on agent prompts and multi-stage reasoning flows.
-*   **Drafting** modular components of the Vanilla CSS frontend UI.
-*   **Improving** documentation clarity, structure, and professional tone.
-
-All architectural decisions, system design, tool choices, and integration logic were made by me and reviewed critically. AI-generated code was modified, validated, and adapted to meet production-grade standards and ensure correctness.
-
----
 
 ## 🚀 Getting Started
 
@@ -127,5 +116,5 @@ All architectural decisions, system design, tool choices, and integration logic 
 2.  **Backend**: `pip install -r requirements.txt` then `uvicorn app.main:app --reload`.
 3.  **Frontend**: `cd frontend && npm install && npm run dev`.
 
----
-*Developed as a high-performance Multi-Agent RAG Assistant for the MEKA Technical Assignment.*
+
+*Built a high-performance Multi-Agent RAG system showcasing production-grade architecture and agent orchestration.*
